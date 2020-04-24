@@ -1,0 +1,105 @@
+
+
+
+#####################################################################################################################  
+# Server function                                                                                                   #
+##################################################################################################################### 
+
+server <- function(input, output, session) {
+
+  #Data overview ----
+  output$contents1  <-  renderDataTable({
+    datatable(lastest_state[,. (date, state, fips, cases, deaths)], options = list(pageLength = 25))
+  })
+  
+  output$contents2  <-  renderDataTable({
+    datatable(latest_county[,. (date, state, county, FIPSCOUNTY, cases, deaths)], options = list(pageLength = 25))
+  })
+  
+  # Plots ----
+  output$state_case <- renderPlotly({
+    
+    DT1 = top_state
+    DT1$state <- factor(DT1$state, levels = unique(DT1$state)[order(DT1$cases, decreasing = TRUE)])
+    plot_ly(DT1, x = ~state, y = ~cases, name = ~state, color = ~state, colors = my_pallete, type = "bar") %>%
+      layout(title = "Total Confirmed Cases",
+             xaxis = list(title = ""), yaxis = list(title = ""), 
+             showlegend = FALSE)
+    
+  })
+  
+  
+  output$state_deaths <- renderPlotly({
+    
+    DT1 = top_state
+    DT1$state <- factor(DT1$state, levels = unique(DT1$state)[order(DT1$deaths, decreasing = TRUE)])
+    plot_ly(DT1, x = ~state, y = ~deaths, name = ~state, color = ~state, colors = my_pallete, type = "bar") %>%
+      layout(title = "Total Deaths",
+             xaxis = list(title = ""), yaxis = list(title = ""), 
+             showlegend = FALSE)
+    
+  })
+  
+  
+  output$time_case <- renderPlotly({
+    
+    DT1 = case_state[date>="2020-03-08" & state %in% top_state[, state]]
+    plot_ly(DT1, x = ~date, y = ~cases, name = ~state, color = ~state, colors = my_pallete) %>%
+      add_lines()  %>%
+      layout(title = "Total Confirmed Cases Since 3/8/2020",
+             xaxis = list(title = ""), yaxis = list(title = ""))
+    
+  })
+  
+  output$time_deaths <- renderPlotly({
+    
+    DT1 = case_state[date>="2020-03-01" & state %in% top_state[, state]]
+    plot_ly(DT1, x = ~date, y = ~deaths, name = ~state, color = ~state, colors = my_pallete) %>%
+      add_lines()  %>%
+      layout(title = "Total Deaths Since 3/1/2020",
+             xaxis = list(title = ""), yaxis = list(title = ""))
+    
+  })
+  
+  #----
+  
+  # Mapping functions ----
+  output$map1 <- renderLeaflet({
+    current_map 
+  })
+
+  output$map2 <- renderLeaflet({
+    current_map2 
+  })
+  
+  output$map3 <- renderLeaflet({
+    time_map 
+  })
+  
+  output$map4 <- renderLeaflet({
+    time_map2 
+  })
+  
+  output$total_case <- renderInfoBox({
+    infoBox(
+      title = "Total Cases", value = total_case,
+      icon = icon("procedures"), fill = TRUE, color = "orange"
+    )
+  })
+  
+  output$total_death <- renderInfoBox({
+    infoBox(
+      title = "Total Deaths", value = total_deaths,
+      icon = icon("user-friends"), fill = TRUE, color = "maroon"
+    )
+  })
+  
+  output$last_update <- renderInfoBox({
+    infoBox(
+      title = "Data Updated", value = last_update,
+      icon = icon("calendar"), fill = TRUE, color = "olive"
+    )
+  })
+  #---
+}
+

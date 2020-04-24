@@ -1,0 +1,25 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1585452149661.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "66|17|99|0|\n102|19|157|0|\n",
+    "hash" : "3217829776",
+    "id" : "FA1EA85F",
+    "lastKnownWriteTime" : 1585505974,
+    "last_content_update" : 1585505974262,
+    "path" : "~/R Projects/COVID19 Tool/Shiny/global.R",
+    "project_path" : "global.R",
+    "properties" : {
+        "cursorPosition" : "45,2",
+        "scrollLine" : "40"
+    },
+    "read_only" : false,
+    "read_only_alternatives" : [
+    ],
+    "relative_order" : 1,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

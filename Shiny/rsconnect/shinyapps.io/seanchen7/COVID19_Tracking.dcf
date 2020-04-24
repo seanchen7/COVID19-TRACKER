@@ -1,0 +1,12 @@
+name: COVID19_Tracking
+title: COVID19_Tracking
+username:
+account: seanchen7
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 2014063
+bundleId: 3056710
+url: https://seanchen7.shinyapps.io/COVID19_Tracking/
+when: 1587676219.24783
+asMultiple: FALSE
+asStatic: FALSE
