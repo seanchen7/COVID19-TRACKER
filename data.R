@@ -93,7 +93,8 @@ load(paste0(input_path, "GEODATA.RData"))
 # 2. COVID Data --------------------------------------------------------------------------------------------------
 
 #NYT COVID-19 data (https://github.com/nytimes/covid-19-data)
-case_raw <- data.table(read.csv("C:\\Users\\SeanChen\\Documents\\GitHub\\covid-19-data\\us-counties.csv", stringsAsFactors = FALSE))
+# case_raw <- data.table(read.csv("C:\\Users\\SeanChen\\Documents\\GitHub\\covid-19-data\\us-counties.csv", stringsAsFactors = FALSE))
+case_raw <- data.table(read.csv("~/Documents/GitHub/covid-19-data/us-counties.csv", stringsAsFactors = FALSE))
 
 # Processing data
 case_raw[, date:= as.Date(date, tz = "UTC")]
@@ -129,7 +130,9 @@ case_all[FIPSCOUNTY=="36061"]
 
 
 # Processing state level data
-state_raw <- data.table(read.csv("C:\\Users\\SeanChen\\Documents\\GitHub\\covid-19-data\\us-states.csv", stringsAsFactors = FALSE))
+# state_raw <- data.table(read.csv("C:\\Users\\SeanChen\\Documents\\GitHub\\covid-19-data\\us-states.csv", stringsAsFactors = FALSE))
+state_raw <- data.table(read.csv("~/Documents/GitHub/covid-19-data/us-states.csv", stringsAsFactors = FALSE))
+
 state_raw[, date:= as.Date(date, tz = "UTC")]
 
 #Fill in NAs between dates
