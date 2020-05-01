@@ -8,11 +8,11 @@
 
 # 
 # #Load Packages
-# required.packages <- c("rstudioapi", "shiny", "shinythemes", "shinydashboard", "formattable", "DT", "openxlsx",
-#                        "scales", "data.table", "DescTools", "Hmisc", "plotly", "RColorBrewer", "ggplot2", "leaflet",
-#                        "tigris", "leaftime")
-# missing.packages <- setdiff(required.packages, rownames(installed.packages()))
-# if (length(missing.packages) > 0) {install.packages(missing.packages)} #Install missing packages
+required.packages <- c("rstudioapi", "shiny", "shinythemes", "shinydashboard", "formattable", "DT", "openxlsx",
+                       "scales", "data.table", "DescTools", "Hmisc", "plotly", "RColorBrewer", "ggplot2", "leaflet",
+                       "tigris", "leaftime")
+missing.packages <- setdiff(required.packages, rownames(installed.packages()))
+if (length(missing.packages) > 0) {install.packages(missing.packages)} #Install missing packages
 
 ## Shiny related packages
 suppressMessages(library(rstudioapi))
