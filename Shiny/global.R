@@ -8,11 +8,11 @@
 
 # 
 # #Load Packages
-# required.packages <- c("rstudioapi", "shiny", "shinythemes", "shinydashboard", "formattable", "DT", "openxlsx",
-#                        "scales", "data.table", "DescTools", "Hmisc", "plotly", "RColorBrewer", "ggplot2", "leaflet",
-#                        "tigris", "leaftime")
-# missing.packages <- setdiff(required.packages, rownames(installed.packages()))
-# if (length(missing.packages) > 0) {install.packages(missing.packages)} #Install missing packages
+required.packages <- c("rstudioapi", "shiny", "shinythemes", "shinydashboard", "formattable", "DT", "openxlsx",
+                       "scales", "data.table", "DescTools", "Hmisc", "plotly", "RColorBrewer", "ggplot2", "leaflet",
+                       "tigris", "leaftime")
+missing.packages <- setdiff(required.packages, rownames(installed.packages()))
+if (length(missing.packages) > 0) {install.packages(missing.packages)} #Install missing packages
 
 ## Shiny related packages
 suppressMessages(library(rstudioapi))
@@ -63,7 +63,7 @@ top_state <- lastest_state[1:state_count]
 
 # Map settings
 map_provider <- "CartoDB.Positron"
-radius_control <- 4
+radius_control <- 6
 range1 <- geo_county$sqrt_persons
 popup1 <- paste0("Population in ", geo_county$NAME, " County: ", "<br>", 
                  format(geo_county$total_persons, nsmall=0, big.mark=","),  

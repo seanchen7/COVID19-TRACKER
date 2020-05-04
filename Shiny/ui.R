@@ -135,7 +135,7 @@ dashboardPage(skin = skin_color,
                             download the map files in html format on ", 
                           a("GitHub", href="https://github.com/seanchen7/COVID-19-Maps"), "."),
                   tags$li("Data exception: All cases in New York City have been assigned with a FIPS code of 36061; Kansas City, MO with 29095"),
-                  tags$li(a("Contact Website/Tool Developer", href="mailto:covid_19_tool@jhu.edu"))
+                  tags$li(a("Contact Website/Tool Developer", href="mailto:seanchen7@jhu.edu"))
                 ),
                 hr(),
                 
