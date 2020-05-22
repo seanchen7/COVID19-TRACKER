@@ -33,11 +33,6 @@ suppressMessages(library(RColorBrewer))
 # suppressMessages(library(htmlwidgets))
 
 
-## Other tool customizations
-skin_color <- "blue"
-# my_pallete <- c("#7FC97F", "#FDC086", "#E41A1C")
-my_pallete <- brewer.pal(7,"Set3")
-
 
 #Loa data
 load("GEODATA.RData")
@@ -45,17 +40,19 @@ load("COVID_Case.RData")
 load("MAP_data.RData")
 
 
-
-#Limit memory use
-case_all <- case_all[date==last_update]
-
-lastest_state <- case_state[date==last_update][order(-cases)]
-# latest_county <- case_all[date==last_update][order(-cases)]
-
-# case_min <- 1000
-# top_state <- lastest_state[cases>case_min]
+# Filter data
+state_latest <- case_state[date==last_update][order(-cases)]
 state_count <- 20
-top_state <- lastest_state[1:state_count]
+state_top <- state_latest[1:state_count]
+state_list <- unique(state_latest[order(state)][, state])
+
+county_list <- case_all[order(-cases)]
+county_list <- unique(county_list[, .(state, county, FIPSCOUNTY)])
+county_count <- 20
+
+## Other tool customizations
+skin_color <- "blue"
+
 
 #####################################################################################################################  
 # Mapping function                                                                                                  #
@@ -63,7 +60,7 @@ top_state <- lastest_state[1:state_count]
 
 # Map settings
 map_provider <- "CartoDB.Positron"
-radius_control <- 6
+radius_control <- 8
 range1 <- geo_county$sqrt_persons
 popup1 <- paste0("Population in ", geo_county$NAME, " County: ", "<br>", 
                  format(geo_county$total_persons, nsmall=0, big.mark=","),  
@@ -133,7 +130,7 @@ current_map2 <- heat_map %>%
 # Timelapsed map
 time_map <- base_map %>% 
   addTimeline(data = count3,
-              sliderOpts = sliderOptions(position = 'bottomleft', steps = (n_intervals)/24, duration = 30000,
+              sliderOpts = sliderOptions(position = 'bottomleft', steps = (n_intervals)/24, duration = 20000,
                                          formatOutput = htmlwidgets::JS(
                                            "function(date) {return new Date(date).toDateString()}"
                                             )), 
@@ -159,18 +156,18 @@ time_map <- base_map %>%
               )
   )
 
-time_map2 <- time_map %>% 
-  #Create legends
-  addLegend(pal = pal1, values = range1,
-            labFormat = labelFormat(transform = function(x) x^2/10^3, big.mark = ","),
-            position = "bottomright", 
-            title = "Population (000s)") %>% 
-  
-  addPolygons(data = geo_county, group = "Census",
-              fillColor = ~pal1(sqrt_persons), color = "white", # you need to use hex colors
-              fillOpacity = 0.7, weight = 1, smoothFactor = 0.2, 
-              popup = popup1,
-              highlightOptions = highlightOptions(color = "Orange", weight = 2, bringToFront = F)) 
+# time_map2 <- time_map %>% 
+#   #Create legends
+#   addLegend(pal = pal1, values = range1,
+#             labFormat = labelFormat(transform = function(x) x^2/10^3, big.mark = ","),
+#             position = "bottomright", 
+#             title = "Population (000s)") %>% 
+#   
+#   addPolygons(data = geo_county, group = "Census",
+#               fillColor = ~pal1(sqrt_persons), color = "white", # you need to use hex colors
+#               fillOpacity = 0.7, weight = 1, smoothFactor = 0.2, 
+#               popup = popup1,
+#               highlightOptions = highlightOptions(color = "Orange", weight = 2, bringToFront = F)) 
 
 
 #----
