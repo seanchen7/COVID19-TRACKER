@@ -3,10 +3,6 @@
 # rm(list=ls())
 # cat("\014")
 
-# setwd(dirname(rstudioapi::getActiveDocumentContext()$path)) # Automatically set working directory to folder where the code is located
-# input_path <- "./Data//" #Input control
-
-# 
 # #Load Packages
 required.packages <- c("rstudioapi", "shiny", "shinythemes", "shinydashboard", "formattable", "DT", "openxlsx",
                        "scales", "data.table", "DescTools", "Hmisc", "plotly", "RColorBrewer", "ggplot2", "leaflet",
@@ -31,7 +27,6 @@ suppressMessages(library(leaftime))
 suppressMessages(library(tigris))
 suppressMessages(library(RColorBrewer))
 # suppressMessages(library(htmlwidgets))
-
 
 
 #Loa data

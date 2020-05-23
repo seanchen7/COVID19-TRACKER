@@ -160,11 +160,9 @@ dashboardPage(skin = skin_color,
                 h3(strong("Additional Information")),
                 h4("Developer Notes:"),
                 tags$ul(
+                  tags$li("The server is scheduled to automatically retrive updated data (if any) twice a day from the NYT github repository."),
                   tags$li("The mapping functionality to render census information is CPU intensive and the server may not be able to support
                             multiple run requests."),
-                  tags$li("The detailed maps are about 20 to 40Mb in size and may take some time to render on your browser. You can also 
-                            download the map files in html format on ", 
-                          a("GitHub", href="https://github.com/seanchen7/COVID-19-Maps"), "."),
                   tags$li("Data exception: All cases in New York City have been assigned with a FIPS code of 36061; Kansas City, MO with 29095"),
                   tags$li(a("Contact Website/Tool Developer", href="mailto:seanchen7@jhu.edu"))
                 ),
