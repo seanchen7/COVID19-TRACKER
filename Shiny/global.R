@@ -1,9 +1,5 @@
 
-#Defining Workspace and Loading Source Code 
-# rm(list=ls())
-# cat("\014")
-
-# #Load Packages
+# Load Packages
 required.packages <- c("rstudioapi", "shiny", "shinythemes", "shinydashboard", "formattable", "DT", "openxlsx",
                        "scales", "data.table", "DescTools", "Hmisc", "plotly", "RColorBrewer", "ggplot2", "leaflet",
                        "tigris", "leaftime")
@@ -18,36 +14,39 @@ suppressMessages(library(shinydashboard))
 suppressMessages(library(formattable))
 suppressMessages(library(DT))
 
-
+## Data and plott
 suppressMessages(library(data.table))
 suppressMessages(library(plotly))
-# suppressMessages(library(ggplot2))
 suppressMessages(library(leaflet))
 suppressMessages(library(leaftime))
 suppressMessages(library(tigris))
 suppressMessages(library(RColorBrewer))
-# suppressMessages(library(htmlwidgets))
 
 
-#Loa data
+# Load data
 load("GEODATA.RData")
 load("COVID_Case.RData")
 load("MAP_data.RData")
 
 
 # Filter data
-state_latest <- case_state[date==last_update][order(-cases)]
-state_count <- 20
-state_top <- state_latest[1:state_count]
-state_list <- unique(state_latest[order(state)][, state])
-
 county_list <- case_all[order(-cases)]
 county_list <- unique(county_list[, .(state, county, FIPSCOUNTY)])
 county_count <- 20
 
-## Other tool customizations
+state_latest <- case_state[date==last_update][order(-cases)]
+state_count <- 20
+state_top <- state_latest[1:state_count]
+state_list <- unique(state_latest[order(state)][, state])
+## Filter to include only states with county-level data
+state_list <- state_list[state_list %in% unique(county_list[, state])] 
+
+# Other tool customizations
 skin_color <- "blue"
 
+## Plot customizations
+my_pallete <- brewer.pal(8,"Set3")
+my_pallete2 <- brewer.pal(8,"Paired")
 
 #####################################################################################################################  
 # Mapping function                                                                                                  #

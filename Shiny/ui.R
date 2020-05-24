@@ -160,7 +160,7 @@ dashboardPage(skin = skin_color,
                 h3(strong("Additional Information")),
                 h4("Developer Notes:"),
                 tags$ul(
-                  tags$li("The server is scheduled to automatically retrive updated data (if any) twice a day from the NYT github repository."),
+                  tags$li("The server is scheduled to automatically retrieve updated data (if any) daily from the NYT GitHub repository."),
                   tags$li("The mapping functionality to render census information is CPU intensive and the server may not be able to support
                             multiple run requests."),
                   tags$li("Data exception: All cases in New York City have been assigned with a FIPS code of 36061; Kansas City, MO with 29095"),

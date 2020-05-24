@@ -4,7 +4,6 @@
 
 # 0. Environment Setup  
 library(data.table)
-# library(lubridate)
 library(ggplot2)
 library(stringr)
 library(leaflet)
@@ -12,7 +11,6 @@ library(tigris)
 library(htmlwidgets)
 library(RColorBrewer)
 library(leaftime)
-# library(timechange)
 library(RCurl)
 
 setwd(dirname(rstudioapi::getActiveDocumentContext()$path))  #Automatically set working directory
@@ -21,7 +19,6 @@ output_path <- "./Shiny//"
 
 # 1. Geo Data -------------------------------------------------------------------------------------------------
 # The following code is to pre-process geography data and doesn't need to be run every time
-
 # # Census shape file for mapping  #(https://www.census.gov/geographies/mapping-files/time-series/geo/tiger-line-file.html)
 # # get_counties <- function(states_list) {
 # #   #Hold result for first state since arguement "state" cannot be blank
@@ -202,7 +199,9 @@ count3[, start:=date][, end:= date]
 count3 <- geojsonio::geojson_json(count3,lat="lat",lon="long")
 
 
-# Save data for Shiny app ----
+# ----
+
+# 4. Export data for Shiny app ----
 case_all <- case_all[date==last_update] #Limit memory use
 case_all <- merge(case_all, census_agg[, .(FIPSCOUNTY, total_persons)], by = 'FIPSCOUNTY', all.x = T)
 case_all[, case_pc:=cases/total_persons]
@@ -213,122 +212,4 @@ save(geo_county, counties_shape, states_shape, count1, count3, n_intervals,
      file= paste0(output_path,"MAP_data.RData"))
 
 #----
-
-# The following code is for creating maps to be saved locally
-
-# # 4. Create Maps
-# # Map settings
-# map_provider <- "CartoDB.Positron"
-# radius_control <- 3
-# range1 <- geo_county$sqrt_persons
-# popup1 <- paste0("Population in ", geo_county$NAME, " County: ", "<br>", geo_county$total_persons, 
-#                  "<br> Total Confirmed Cases"," (As of ", last_update, "):<br>",  geo_county$cases)
-# popup2 <- paste0("Population in ", geo_county$NAME, " County: ", "<br>", geo_county$total_persons)
-# pal1 <- colorBin("Blues", domain = range1, 5, pretty = T)
-# #Create base map ----
-# base_map<-leaflet() %>%
-#   addProviderTiles(map_provider) %>%
-#   
-#   #Generate county boundaries
-#   addPolylines(data = counties_shape, group="County Boundary", color = "orange",
-#                weight = 0.5, smoothFactor = 0.2) %>%
-#   #Generate state boundaries
-#   addPolylines(data = states_shape, group="State Boundary", color = "orange",
-#                weight = 0.5, smoothFactor = 0.2) %>%
-#   
-#   #Add layers control
-#   addLayersControl(
-#     overlayGroups = c("State Boundary", "County Boundary"),
-#     options = layersControlOptions(collapsed = T))  %>%
-#   hideGroup("County Boundary")
-# 
-# 
-# #Generate heat maps
-# heat_map <- base_map %>%
-#   
-#   #Create legends
-#   addLegend(pal = pal1, values = range1,
-#             labFormat = labelFormat(transform = function(x) x^2/10^3, big.mark = ","),
-#             position = "bottomright", 
-#             title = "Population (000s)") %>% 
-#   
-#   addPolygons(data = geo_county, group = "Census",
-#               fillColor = ~pal1(sqrt_persons), color = "white", # you need to use hex colors
-#               fillOpacity = 0.7, weight = 1, smoothFactor = 0.2, 
-#               popup = popup1,
-#               highlightOptions = highlightOptions(color = "Orange", weight = 2, bringToFront = F)) 
-# 
-# 
-# # ----
-# 
-# # Add marker layer ----
-# 
-# # Current map
-# current_map <- base_map %>% 
-#   addCircleMarkers(data= count1, ~long, ~lat, group="Total Confirmed Cases", radius= ~sqrt(cases)/radius_control,
-#                    popup = ~paste0(county, ", ", state, "<br>","Total Confirmed Cases: ", cases,
-#                                    "<br>", "Total Deaths: ", deaths, "<br>", "Last Updated: ", last_update),
-#                    color = "#E41A1C", stroke = T, fillOpacity = 0.09, weight = 1)  
-# 
-# current_map2 <- heat_map %>% 
-#   addCircleMarkers(data= count1, ~long, ~lat, group="Total Confirmed Cases", radius= ~sqrt(cases)/radius_control,
-#                    popup = ~paste0(county, ", ", state, "<br>","Total Confirmed Cases: ", cases,
-#                                    "<br>", "Total Deaths: ", deaths, "<br>", "Last Updated: ", last_update),
-#                    color = "#E41A1C", stroke = T, fillOpacity = 0.09, weight = 1)
-# 
-# 
-# # Timelapsed map
-# time_map <- base_map %>% 
-#   addTimeline(data = count3,
-#               sliderOpts = sliderOptions(position = 'bottomleft', steps = (n_intervals)/24, duration = 30000), 
-#               # enablePlayback = T, enableKeyboardControls = T), 
-#               timelineOpts = timelineOptions(
-#                 styleOptions = NULL, # make sure default style does not override
-#                 pointToLayer = htmlwidgets::JS(
-#                   "
-#                                 function(data, latlng) {
-#                                   return L.circleMarker(
-#                                     latlng,
-#                                     {
-#                                       radius: +data.properties.radius,
-#                                       color: '#E41A1C',
-#                                       fillcolor: '#E41A1C',
-#                                       fillOpacity: 0.09,
-#                                       stroke: 'TRUE',
-#                                       weight: 1,
-#                                     }
-#                                   );
-#                                 }
-#                                 ")
-#               )
-#   )
-# 
-# time_map2 <- time_map %>% 
-#   #Create legends
-#   addLegend(pal = pal1, values = range1,
-#             labFormat = labelFormat(transform = function(x) x^2/10^3, big.mark = ","),
-#             position = "bottomright", 
-#             title = "Population (000s)") %>% 
-#   
-#   addPolygons(data = geo_county, group = "Census",
-#               fillColor = ~pal1(sqrt_persons), color = "white", # you need to use hex colors
-#               fillOpacity = 0.7, weight = 1, smoothFactor = 0.2, 
-#               popup = popup1,
-#               highlightOptions = highlightOptions(color = "Orange", weight = 2, bringToFront = F)) 
-# ----
-# 
-# map_path <- "C:\\Users\\SeanChen\\Documents\\GitHub\\COVID-19-Maps\\"
-# saveWidget(time_map, file= paste0(map_path, "US Case Count Over Time.html"), selfcontained=TRUE)
-# saveWidget(time_map2, file= paste0(map_path, "US Case Count Over Time (with Census Population Overlay).html"), 
-#            selfcontained=TRUE)
-# saveWidget(current_map, file= paste0(map_path, "US Case Map_",last_update, ".html"), selfcontained=TRUE)
-# saveWidget(current_map2, file= paste0(map_path, "US Case Map (with Census Population Overlay)_",last_update, ".html"), selfcontained=TRUE)
-
-
-# saveWidget(time_map, file="US Case Count Over Time.html", selfcontained=TRUE)
-# saveWidget(time_map2, file= "US Case Count Over Time (with Census Population Overlay).html", 
-#            selfcontained=TRUE)
-# saveWidget(current_map, file= paste0("US Case Map_",last_update, ".html"), selfcontained=TRUE)
-# saveWidget(current_map2, file= paste0("US Case Map (with Census Population Overlay)_",last_update, ".html"), selfcontained=TRUE)
-
 

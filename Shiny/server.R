@@ -1,6 +1,4 @@
-# Plot customizations
-my_pallete <- brewer.pal(8,"Set3")
-my_pallete2 <- brewer.pal(8,"Paired")
+
 
 #####################################################################################################################  
 # Server function                                                                                                   #
