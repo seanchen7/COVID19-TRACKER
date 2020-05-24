@@ -1,11 +1,26 @@
 # COVID19-TRACKER
 
-Hi everyone, I wanted to share a website I recently developed to help track and map the #covid19 cases in the U.S. The website can be accessed from here: http://covidtracker.schen.org
+Hi everyone, I wanted to share a website I recently developed an app/website to help track and map the #covid19 cases in the U.S. The app can be accessed from here: [COVID19 Tracker].
+
+![COVID-19 Cases U.S. Map!](/Screenshots/covidapp.png "COVID-19 Cases U.S. Map")
+
+*Updated 5/23:*
+
+Additional interactive charts have been added to this app to visualize county-level case growth statistics. The underlying data is also being automatically updated twice daily via connection to the [NYT GitHub repository].
+
+![COVID-19 County-Level Charts!](/Screenshots/covidapp2.PNG "COVID-19 County-Level Charts")
+
+
+**Background:**
 
 On March 27th, the NYT made public their Coronavirus case data, which is tracked to the county level and fills the gap as no single agency has provided the public with an accurate, up-to-date record of coronavirus cases, according to NYT.
 
 Leveraging this data and census information, I attempted to map these cases to each county, and include time lapse effects to visualize how small number of known cases can mushroom into an outbreak quickly (see video). You may access more up-to-date and interactive maps on the website above.
 
-Disclaimers: the views contained in this post and my website are solely mine and should not be interpreted as representing those of the organizations I’m affiliated with.
+Disclaimers: the views contained in this post and my website are solely mine and should not be interpreted as representing those of the organizations I'm affiliated with.
 
-You can also read more reporting on this from the following NYT website: https://lnkd.in/eBzgDw6
+You can also read more reporting on this from the following [NYT website].
+
+[COVID19 Tracker]:      http://covidtracker.schen.org
+[NYT website]:          https://lnkd.in/eBzgDw6
+[NYT GitHub repository]: https://github.com/nytimes/covid-19-data
