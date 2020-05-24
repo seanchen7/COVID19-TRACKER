@@ -22,10 +22,6 @@ Main packages utilized for data visualization include plotly (for interative gra
 
 On March 27th, the NYT made public their Coronavirus case data, which is tracked to the county level and fills the gap as no single agency has provided the public with an accurate, up-to-date record of coronavirus cases, according to NYT.
 
-Leveraging this data and census information, I attempted to map these cases to each county, and include time lapse effects to visualize how small number of known cases can mushroom into an outbreak quickly (see video). You may access more up-to-date and interactive maps on the website above.
-
-Disclaimers: the views contained in this post and my website are solely mine and should not be interpreted as representing those of the organizations I'm affiliated with.
-
 You can also read more reporting on this from the following [NYT website].
 
 [COVID19 Tracker]:      http://covidtracker.schen.org
