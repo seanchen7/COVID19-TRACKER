@@ -10,6 +10,13 @@ Additional interactive charts have been added to this app to visualize county-le
 
 ![COVID-19 County-Level Charts!](/Screenshots/covidapp2.PNG "COVID-19 County-Level Charts")
 
+**Notes on the Code:**
+
+Code Structure:
+* Data.R: This is the script used to pre-process COVOID case data as well as census information and geographical shapes. The output includes three R data files saved under the Shiny folder.
+* Shiny folder: This is the underlying code for the Shiny application. Read more about R Shiny [here](https://shiny.rstudio.com/). 
+
+Main packages utilized for data visualization include plotly (for interative graphics), leaflet and tigris (for geomapping).
 
 **Background:**
 
