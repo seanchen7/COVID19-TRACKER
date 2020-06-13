@@ -191,12 +191,21 @@ geo_county <-  geo_join(counties_shape, DT2, "FIPSCOUNTY", "FIPSCOUNTY") #merged
 # Timestamp
 radius_control <- 6
 min_date <- "2020-03-01"
-count3 <- count2[date>=min_date, .(lat, long, date, cases, deaths)]
+max_date <- "2020-05-01"
+
+count3 <- count2[date>=min_date & date<max_date, .(lat, long, date, cases, deaths)]
 count3[, date:=date+1] #adjusted for timezone difference
-n_intervals = difftime(max(count3[, date]), min(count3[, date]), tz="UTC", units = c("hours"))
+n_intervals1 = difftime(max(count3[, date]), min(count3[, date]), tz="UTC", units = c("hours"))
 count3[, radius:= sqrt(cases)/radius_control]
 count3[, start:=date][, end:= date]
 count3 <- geojsonio::geojson_json(count3,lat="lat",lon="long")
+
+count4 <- count2[date>=max_date, .(lat, long, date, cases, deaths)]
+count4[, date:=date+1] #adjusted for timezone difference
+n_intervals2 = difftime(max(count4[, date]), min(count4[, date]), tz="UTC", units = c("hours"))
+count4[, radius:= sqrt(cases)/radius_control]
+count4[, start:=date][, end:= date]
+count4 <- geojsonio::geojson_json(count4,lat="lat",lon="long")
 
 
 # ----
@@ -208,7 +217,7 @@ case_all[, case_pc:=cases/total_persons]
 
 save(case_all, case_state, last_update, total_case, total_deaths, file= paste0(output_path, "COVID_Case.RData"))
 
-save(geo_county, counties_shape, states_shape, count1, count3, n_intervals, 
+save(geo_county, counties_shape, states_shape, count1, count3, count4,  n_intervals1, n_intervals2, 
      file= paste0(output_path,"MAP_data.RData"))
 
 #----

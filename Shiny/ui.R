@@ -10,9 +10,9 @@ dashboardPage(skin = skin_color,
                                menuItem(strong("Overview"), tabName = "Overview", icon = icon("chart-area")),
                                menuItem(strong("Detailed Charts"), tabName = "Chart", icon = icon("chart-bar")),
                                menuItem(strong("Detailed Maps"), tabName = "Map", icon = icon("map"), startExpanded = T,
-                                        menuSubItem("Time Lapsed Map", tabName = "Map3", icon = icon("chart-line")),
-                                        # menuSubItem("Time Lapsed Map with Census Overlay", tabName = "Map4", icon = icon("chart-line")),
-                                        menuSubItem("Latest Map with Census Overlay", tabName = "Map2", icon = icon("map"))
+                                        menuSubItem("Latest Map with Census Overlay", tabName = "Map2", icon = icon("map")),
+                                        menuSubItem("Time Lapsed Map (March - April)", tabName = "Map3", icon = icon("chart-line")),
+                                        menuSubItem("Time Lapsed Map (May - )", tabName = "Map4", icon = icon("chart-line"))
                                         ),
                                menuItem(strong("Additional Info"), tabName = "Help", icon = icon("question-circle"))
                    )# end of sidebarMenu
@@ -137,22 +137,25 @@ dashboardPage(skin = skin_color,
               )
                                     
       ), #end of item 
-      # tabItem(tabName = "Map4",
-      #         div(class="outer",
-      #             tags$head(
-      #               # Include our custom CSS
-      #               includeCSS("./www/styles.css"),
-      #               includeScript("./www/gomap.js")
-      #             ),
-      #             #Map output
-      #             leafletOutput("map4", height="100%"),
-      #             
-      #             tags$div(id="cite",tags$a(href="http://www.linkedin.com/in/seanchen7",
-      #                                       "Copyright © 2020 by Sean Chen. All rights reserved." , title="Link to Bio"),
-      #                      tags$a(href="https://github.com/nytimes/covid-19-data",
-      #                             "COVID-19 data compiled by The New York Times." , title="Github"))
-      #         )
-      # ), #end of item 
+
+      tabItem(tabName = "Map4",
+              div(class="outer",
+                  tags$head(
+                    # Include our custom CSS
+                    includeCSS("./www/styles.css"),
+                    includeScript("./www/gomap.js")
+                  ),
+                  #Map output
+                  leafletOutput("map4", height="100%"),  
+                  
+                  tags$div(id="cite",tags$a(href="http://www.linkedin.com/in/seanchen7", 
+                                            "Copyright © 2020 by Sean Chen. All rights reserved." , title="Link to Bio"),
+                           tags$a(href="https://github.com/nytimes/covid-19-data", 
+                                  "COVID-19 data compiled by The New York Times." , title="Github"))
+              )
+              
+      ), #end of item 
+      
       # ---- 
 
       tabItem(tabName = "Help",

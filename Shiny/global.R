@@ -124,7 +124,7 @@ current_map2 <- heat_map %>%
 # Timelapsed map
 time_map <- base_map %>% 
   addTimeline(data = count3,
-              sliderOpts = sliderOptions(position = 'bottomleft', steps = (n_intervals)/24, duration = 20000,
+              sliderOpts = sliderOptions(position = 'bottomleft', steps = (n_intervals1)/24, duration = 20000,
                                          formatOutput = htmlwidgets::JS(
                                            "function(date) {return new Date(date).toDateString()}"
                                             )), 
@@ -150,19 +150,33 @@ time_map <- base_map %>%
               )
   )
 
-# time_map2 <- time_map %>% 
-#   #Create legends
-#   addLegend(pal = pal1, values = range1,
-#             labFormat = labelFormat(transform = function(x) x^2/10^3, big.mark = ","),
-#             position = "bottomright", 
-#             title = "Population (000s)") %>% 
-#   
-#   addPolygons(data = geo_county, group = "Census",
-#               fillColor = ~pal1(sqrt_persons), color = "white", # you need to use hex colors
-#               fillOpacity = 0.7, weight = 1, smoothFactor = 0.2, 
-#               popup = popup1,
-#               highlightOptions = highlightOptions(color = "Orange", weight = 2, bringToFront = F)) 
-
+# Timelapsed map
+time_map2 <- base_map %>% 
+  addTimeline(data = count4,
+              sliderOpts = sliderOptions(position = 'bottomleft', steps = (n_intervals2)/24, duration = 20000,
+                                         formatOutput = htmlwidgets::JS(
+                                           "function(date) {return new Date(date).toDateString()}"
+                                         )), 
+              timelineOpts = timelineOptions(
+                styleOptions = NULL, # make sure default style does not override
+                pointToLayer = htmlwidgets::JS(
+                  "
+                                function(data, latlng) {
+                                  return L.circleMarker(
+                                    latlng,
+                                    {
+                                      radius: +data.properties.radius,
+                                      color: '#E41A1C',
+                                      fillcolor: '#E41A1C',
+                                      fillOpacity: 0.09,
+                                      stroke: 'TRUE',
+                                      weight: 1,
+                                    }
+                                  );
+                                }
+                                ")
+              )
+  )
 
 #----
 
