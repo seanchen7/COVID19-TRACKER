@@ -2,7 +2,7 @@
 # Load Packages
 required.packages <- c("rstudioapi", "shiny", "shinythemes", "shinydashboard", "formattable", "DT", "openxlsx",
                        "scales", "data.table", "DescTools", "Hmisc", "plotly", "RColorBrewer", "ggplot2", "leaflet",
-                       "tigris", "leaftime")
+                       "tigris", "leaftime", "zoo")
 missing.packages <- setdiff(required.packages, rownames(installed.packages()))
 if (length(missing.packages) > 0) {install.packages(missing.packages)} #Install missing packages
 
