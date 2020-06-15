@@ -115,12 +115,15 @@ server <- function(input, output, session) {
  
   output$state_growth <- renderPlotly({
     DT1 = case_state[state==input$state]
-    plot_ly(DT1,  x = ~date, y = ~case_delta, type = "bar") %>%
+    DT1[, rolling:=rollmean(case_delta, k=7, fill = NA, align = "right")]
+    plot_ly(DT1,  x = ~date, y = ~case_delta, type = "bar", name = "Daily increase") %>%
+      add_lines(data = DT1, x = ~date, y = ~rolling, name = "7-day average")  %>%
       layout(title = "Daily New Confirmed Cases",
              xaxis = list(title = "Date Slider",
                           range = c(as.Date("2020-03-01"), last_update),
                           rangeslider = list(type = "date")),
-             yaxis = list(title = ""))
+             yaxis = list(title = ""),
+             legend = list(x = 0.01, y = 0.9))
     })
 
   
@@ -129,7 +132,6 @@ server <- function(input, output, session) {
   output$county_case <- renderPlotly({
     
     DT1 = case_all[state==input$state & county %in% input$county]
-    
     DT1$county <- factor(DT1$county, levels = unique(DT1$county)[order(DT1$cases, decreasing = TRUE)])
     plot_ly(DT1, x = ~county, y = ~cases, name = ~county, color = ~county, colors = my_pallete2, 
             type = "bar") %>%
