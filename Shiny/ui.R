@@ -72,17 +72,20 @@ dashboardPage(skin = skin_color,
                                      selectInput("state", "State", state_list, selected = "New York"),
                                      selectizeInput("county", "Counties", county_list[state=="New York", county], 
                                                     selected = county_list[state=="New York", county][1:county_count], multiple = T),
-                                     p("Note: The selection of counties will only apply to the first two charts"),
+                                     p("Note: The list of counties is automatically populated based on the total number of cases.
+                                       You can customize the second and third charts by adding or removing counties from the list"),
                                  )
                                )
                   ), # end of panel
                   
                   mainPanel(width=9,
-                            box(title = paste0("County Level Case Data (As of ", last_update, " )"),
+                            box(title = paste0("State and County Level Case Data (As of ", last_update, " )"),
                               status = "success", width = 12, solidHeader = F, collapsible = T,
                               tabBox(width = 12,
-                                     tabPanel("Latest Total", plotlyOutput("county_case", height = "480px")),
+                                     tabPanel("State Trend", plotlyOutput("state_growth", height = "480px")),
+                                     tabPanel("County Total", plotlyOutput("county_case", height = "480px")),
                                      tabPanel("New Cases", plotlyOutput("county_case_new", height = "480px")),
+
                                      tabPanel("Top Counties by New Cases", plotlyOutput("county_case_new2", height = "480px")),
                                      tabPanel("Case Growth Rate", plotlyOutput("county_case_new3", height = "480px")),
                                      tabPanel("Case Per Capita", plotlyOutput("county_case_pc", height = "480px"))

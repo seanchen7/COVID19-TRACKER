@@ -111,6 +111,19 @@ server <- function(input, output, session) {
   
   #----
 
+  # State level growth
+ 
+  output$state_growth <- renderPlotly({
+    DT1 = case_state[state==input$state]
+    plot_ly(DT1,  x = ~date, y = ~case_delta, type = "bar") %>%
+      layout(title = "Daily New Confirmed Cases",
+             xaxis = list(title = "Date Slider",
+                          range = c(as.Date("2020-03-01"), last_update),
+                          rangeslider = list(type = "date")),
+             yaxis = list(title = ""))
+    })
+
+  
   # County Plots ----
   
   output$county_case <- renderPlotly({

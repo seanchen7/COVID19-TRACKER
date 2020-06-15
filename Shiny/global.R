@@ -14,7 +14,7 @@ suppressMessages(library(shinydashboard))
 suppressMessages(library(formattable))
 suppressMessages(library(DT))
 
-## Data and plott
+## Data and plot
 suppressMessages(library(data.table))
 suppressMessages(library(plotly))
 suppressMessages(library(leaflet))
@@ -41,10 +41,10 @@ state_list <- unique(state_latest[order(state)][, state])
 ## Filter to include only states with county-level data
 state_list <- state_list[state_list %in% unique(county_list[, state])] 
 
-# Other tool customizations
+# Other tool customization
 skin_color <- "blue"
 
-## Plot customizations
+## Plot customization
 my_pallete <- brewer.pal(8,"Set3")
 my_pallete2 <- brewer.pal(8,"Paired")
 
