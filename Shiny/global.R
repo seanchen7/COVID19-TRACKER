@@ -16,6 +16,7 @@ suppressMessages(library(DT))
 
 ## Data and plot
 suppressMessages(library(data.table))
+suppressMessages(library(zoo))
 suppressMessages(library(plotly))
 suppressMessages(library(leaflet))
 suppressMessages(library(leaftime))
