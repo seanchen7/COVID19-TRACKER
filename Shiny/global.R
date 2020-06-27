@@ -64,7 +64,8 @@ popup1 <- paste0("Population in ", geo_county$NAME, " County: ", "<br>",
 popup2 <- paste0("Population in ", geo_county$NAME, " County: ", "<br>", 
                  format(geo_county$total_persons, nsmall=0, big.mark=","))
 pal1 <- colorBin("Blues", domain = range1, 5, pretty = T)
-pal2 = colorBin(brewer.pal(8, "OrRd"), domain = geo_state$rolling, 4, pretty = T)
+# pal2 = colorBin(brewer.pal(8, "OrRd"), domain = geo_state$rolling, 4, pretty = T)
+pal2 = colorNumeric("YlOrRd", domain = geo_state$rolling)
 
 # State map ----
 
@@ -74,23 +75,23 @@ state_map<-leaflet() %>%
   #Generate state boundaries
   addPolylines(data = states_shape, group="State Boundary", color = "orange",
                weight = 0.5, smoothFactor = 0.2) %>%
-  
+
   #Create legends
-  addLegend(pal = pal2,  
+  addLegend(pal = pal2,
             values = geo_state$rolling,
             labFormat = labelFormat(transform = function(x) x, big.mark = ","),
-            position = "bottomright", 
-            title = "New Cases: <br> 7-Day Average") %>% 
+            position = "bottomright",
+            title = "New Cases: <br> 7-Day Average") %>%
   
   addPolygons(data = geo_state, group = "Case",
-              fillColor = ~pal2(rolling), color = "white", # you need to use hex colors
+              fillColor = ~pal2(rolling), color = "white",
               fillOpacity = 0.7, weight = 1, smoothFactor = 0.2, 
               popup = paste0(geo_state$state, "<br>", 
                              "Total Confirmed Cases",  ": ", format(geo_state$cases, nsmall=0, big.mark=","), "<br>", 
                              "Daily New Cases: ", format(geo_state$case_delta, nsmall=0, big.mark=","), "<br>", 
                              "7-Day Moving Average: ", format(round(geo_state$rolling, 0), nsmall=0, big.mark=",")), 
               highlightOptions = highlightOptions(color = "Orange", weight = 2, bringToFront = F)) 
-state_map
+
 # ----
 
 #Create county base map ----
