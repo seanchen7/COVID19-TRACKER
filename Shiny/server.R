@@ -203,6 +203,12 @@ server <- function(input, output, session) {
   
   zoom_level <- 4
   
+  output$map <- renderLeaflet({
+    state_map %>%
+      setView(lng = -93.85, lat = 37.45, zoom = zoom_level)
+    
+  })
+  
   output$map1 <- renderLeaflet({
     current_map %>%
       setView(lng = -93.85, lat = 37.45, zoom = zoom_level)

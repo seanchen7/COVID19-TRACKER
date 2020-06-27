@@ -9,8 +9,9 @@ dashboardPage(skin = skin_color,
                    sidebarMenu(id = "tabs", 
                                menuItem(strong("Overview"), tabName = "Overview", icon = icon("chart-area")),
                                menuItem(strong("Detailed Charts"), tabName = "Chart", icon = icon("chart-bar")),
-                               menuItem(strong("Detailed Maps"), tabName = "Map", icon = icon("map"), startExpanded = T,
-                                        menuSubItem("Latest Map with Census Overlay", tabName = "Map2", icon = icon("map")),
+                               menuItem(strong("Deatailed Maps"), tabName = "Map", icon = icon("map"), startExpanded = T,
+                                        menuSubItem("County-Level Map", tabName = "Map1", icon = icon("map")),
+                                        menuSubItem("County-Level Map - Census Overlay", tabName = "Map2", icon = icon("map")),
                                         menuSubItem("Time Lapsed Map (March - April)", tabName = "Map3", icon = icon("chart-line")),
                                         menuSubItem("Time Lapsed Map (May - )", tabName = "Map4", icon = icon("chart-line"))
                                         ),
@@ -39,7 +40,7 @@ dashboardPage(skin = skin_color,
                     ), 
                     mainPanel(width=9,
                         box(width = 12,
-                          leafletOutput("map1", width = "100%", height = 470)
+                          leafletOutput("map", width = "100%", height = 470)
                         )
                     )
                   ) #end of layout
@@ -105,6 +106,23 @@ dashboardPage(skin = skin_color,
               ) # end of page
       ),
       # Geo-Analysis ---- 
+
+      tabItem(tabName = "Map1",
+              div(class="outer",
+                  tags$head(
+                    # Include our custom CSS
+                    includeCSS("./www/styles.css"),
+                    includeScript("./www/gomap.js")
+                  ),
+                  #Map output
+                  leafletOutput("map1", height="100%"),
+                  
+                  tags$div(id="cite",tags$a(href="http://www.linkedin.com/in/seanchen7", 
+                                            "Copyright © 2020 by Sean Chen. All rights reserved." , title="Link to Bio"),
+                           tags$a(href="https://github.com/nytimes/covid-19-data", 
+                                  "COVID-19 data compiled by The New York Times." , title="Github"))
+              )
+      ), #end of item 
       
       tabItem(tabName = "Map2",
               div(class="outer",

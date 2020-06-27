@@ -12,6 +12,7 @@ library(htmlwidgets)
 library(RColorBrewer)
 library(leaftime)
 library(RCurl)
+library(zoo)
 
 setwd(dirname(rstudioapi::getActiveDocumentContext()$path))  #Automatically set working directory
 input_path <- "./Data//" #Input control
@@ -164,31 +165,36 @@ state_list = c(1, 4,5,6,8,9,10,11,12,13,14,16,17,18,19,20,21,22,23,24,25,26,27,2
 area <- FIPS[state_code %in% state_list]
 counties_list = unique(area[,FIPSCOUNTY])
 
-#Subset COVID data to specific area
+#Subset spatial data
+counties_shape <- counties_all[counties_all$FIPSCOUNTY %in% counties_list,]
+states_shape <- states_all[states_all$STATEFP %in% str_pad(state_list,2,"left", pad="0"),]
 
-# Latest data
+# Combine state level data
+DT1 <- case_state[fips %in% state_list]
+DT1[, rolling:=rollmean(case_delta, k=7, fill = NA, align = "right")]
+DT1 <- DT1[date==last_update]
+DT1[, fips:=str_pad(fips, 2, "left", pad="0")]
+geo_state <-  geo_join(states_shape, DT1, "STATEFP", "fips") 
+
+# Combine county level data
+## Latest data
 DT1 <- case_all[FIPSCOUNTY %in% counties_list & date==last_update]
 DT2 <- merge(x=DT1, y=county_geo[, .(FIPSCOUNTY, INTPTLAT, INTPTLONG)], all.x=TRUE, by="FIPSCOUNTY") #Merge with coordinates info
 setnames(DT2, old=c("INTPTLAT","INTPTLONG"),new=c("lat","long"))
 count1 <- as.data.frame(DT2)
 
-# Time series
+## Time series
 count2 <- case_all[FIPSCOUNTY %in% counties_list]
 count2 <- merge(x=count2, y=county_geo[, .(FIPSCOUNTY, INTPTLAT, INTPTLONG)], all.x=TRUE, by="FIPSCOUNTY") #Merge with coordinates info
 setnames(count2, old=c("INTPTLAT","INTPTLONG"),new=c("lat","long"))
 
-
-#Subset spatial data
-counties_shape <- counties_all[counties_all$FIPSCOUNTY %in% counties_list,]
-states_shape <- states_all[states_all$STATEFP %in% str_pad(state_list,2,"left", pad="0"),]
-
-# Combine county level data
+## Combine data
 DT1 = as.data.table(count1)
 DT2 <- merge(census_agg[, .(FIPSCOUNTY, total_persons, sqrt_persons)], DT1[, .(FIPSCOUNTY, cases, deaths)],
              all.x = T, by = "FIPSCOUNTY")
 geo_county <-  geo_join(counties_shape, DT2, "FIPSCOUNTY", "FIPSCOUNTY") #merged with census data
 
-# Timestamp
+## Timestamp
 radius_control <- 6
 min_date <- "2020-03-01"
 max_date <- "2020-05-01"
@@ -217,7 +223,7 @@ case_all[, case_pc:=cases/total_persons]
 
 save(case_all, case_state, last_update, total_case, total_deaths, file= paste0(output_path, "COVID_Case.RData"))
 
-save(geo_county, counties_shape, states_shape, count1, count3, count4,  n_intervals1, n_intervals2, 
+save(geo_county, geo_state, counties_shape, states_shape, count1, count3, count4,  n_intervals1, n_intervals2, 
      file= paste0(output_path,"MAP_data.RData"))
 
 #----
