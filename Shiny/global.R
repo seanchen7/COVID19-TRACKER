@@ -41,6 +41,7 @@ state_top <- state_latest[1:state_count]
 state_list <- unique(state_latest[order(state)][, state])
 ## Filter to include only states with county-level data
 state_list <- state_list[state_list %in% unique(county_list[, state])] 
+state_max <-  case_state[date==last_update][order(-case_delta)][1][, state]
 
 # Other tool customization
 skin_color <- "blue"
@@ -180,32 +181,32 @@ time_map <- base_map %>%
   )
 
 # Timelapsed map
-time_map2 <- base_map %>% 
-  addTimeline(data = count4,
-              sliderOpts = sliderOptions(position = 'bottomleft', steps = (n_intervals2)/24, duration = 20000,
-                                         formatOutput = htmlwidgets::JS(
-                                           "function(date) {return new Date(date).toDateString()}"
-                                         )), 
-              timelineOpts = timelineOptions(
-                styleOptions = NULL, # make sure default style does not override
-                pointToLayer = htmlwidgets::JS(
-                  "
-                                function(data, latlng) {
-                                  return L.circleMarker(
-                                    latlng,
-                                    {
-                                      radius: +data.properties.radius,
-                                      color: '#E41A1C',
-                                      fillcolor: '#E41A1C',
-                                      fillOpacity: 0.09,
-                                      stroke: 'TRUE',
-                                      weight: 1,
-                                    }
-                                  );
-                                }
-                                ")
-              )
-  )
+# time_map2 <- base_map %>% 
+#   addTimeline(data = count4,
+#               sliderOpts = sliderOptions(position = 'bottomleft', steps = (n_intervals2)/24, duration = 20000,
+#                                          formatOutput = htmlwidgets::JS(
+#                                            "function(date) {return new Date(date).toDateString()}"
+#                                          )), 
+#               timelineOpts = timelineOptions(
+#                 styleOptions = NULL, # make sure default style does not override
+#                 pointToLayer = htmlwidgets::JS(
+#                   "
+#                                 function(data, latlng) {
+#                                   return L.circleMarker(
+#                                     latlng,
+#                                     {
+#                                       radius: +data.properties.radius,
+#                                       color: '#E41A1C',
+#                                       fillcolor: '#E41A1C',
+#                                       fillOpacity: 0.09,
+#                                       stroke: 'TRUE',
+#                                       weight: 1,
+#                                     }
+#                                   );
+#                                 }
+#                                 ")
+#               )
+#   )
 
 #----
 

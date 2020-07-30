@@ -12,8 +12,8 @@ dashboardPage(skin = skin_color,
                                menuItem(strong("Deatailed Maps"), tabName = "Map", icon = icon("map"), startExpanded = T,
                                         menuSubItem("County-Level Map", tabName = "Map1", icon = icon("map")),
                                         menuSubItem("County-Level Map - Census Overlay", tabName = "Map2", icon = icon("map")),
-                                        menuSubItem("Time Lapsed Map (March - April)", tabName = "Map3", icon = icon("chart-line")),
-                                        menuSubItem("Time Lapsed Map (May - )", tabName = "Map4", icon = icon("chart-line"))
+                                        menuSubItem("Time Lapsed Map (March - April)", tabName = "Map3", icon = icon("chart-line"))
+                                        # menuSubItem("Time Lapsed Map (May - )", tabName = "Map4", icon = icon("chart-line"))
                                         ),
                                menuItem(strong("Additional Info"), tabName = "Help", icon = icon("question-circle"))
                    )# end of sidebarMenu
@@ -70,9 +70,9 @@ dashboardPage(skin = skin_color,
                   sidebarPanel(width=3,
                                fluidRow(
                                  box(title=em("Select Geographies"), status = "primary",  width = 12, solidHeader = F, collapsible = T, 
-                                     selectInput("state", "State", state_list, selected = "New York"),
-                                     selectizeInput("county", "Counties", county_list[state=="New York", county], 
-                                                    selected = county_list[state=="New York", county][1:county_count], multiple = T),
+                                     selectInput("state", "State", state_list, selected = state_max),
+                                     selectizeInput("county", "Counties", county_list[state==state_max, county], 
+                                                    selected = county_list[state==state_max, county][1:county_count], multiple = T),
                                      p("Note: The list of counties is automatically populated based on the total number of cases.
                                        You can customize the second and third charts by adding or removing counties from the list"),
                                  )
@@ -117,7 +117,7 @@ dashboardPage(skin = skin_color,
                   #Map output
                   leafletOutput("map1", height="100%"),
                   
-                  tags$div(id="cite",tags$a(href="http://www.linkedin.com/in/seanchen7", 
+                  tags$div(id="cite",tags$a(href="mailto:seanchen7@jhu.edu", 
                                             "Copyright © 2020 by Sean Chen. All rights reserved." , title="Link to Bio"),
                            tags$a(href="https://github.com/nytimes/covid-19-data", 
                                   "COVID-19 data compiled by The New York Times." , title="Github"))
@@ -134,7 +134,7 @@ dashboardPage(skin = skin_color,
                   #Map output
                   leafletOutput("map2", height="100%"),
                   
-                  tags$div(id="cite",tags$a(href="http://www.linkedin.com/in/seanchen7", 
+                  tags$div(id="cite",tags$a(href="mailto:seanchen7@jhu.edu", 
                                             "Copyright © 2020 by Sean Chen. All rights reserved." , title="Link to Bio"),
                            tags$a(href="https://github.com/nytimes/covid-19-data", 
                                   "COVID-19 data compiled by The New York Times." , title="Github"))
@@ -151,7 +151,7 @@ dashboardPage(skin = skin_color,
                   #Map output
                   leafletOutput("map3", height="100%"),  
 
-                  tags$div(id="cite",tags$a(href="http://www.linkedin.com/in/seanchen7", 
+                  tags$div(id="cite",tags$a(href="mailto:seanchen7@jhu.edu", 
                                             "Copyright © 2020 by Sean Chen. All rights reserved." , title="Link to Bio"),
                            tags$a(href="https://github.com/nytimes/covid-19-data", 
                                   "COVID-19 data compiled by The New York Times." , title="Github"))
@@ -159,23 +159,23 @@ dashboardPage(skin = skin_color,
                                     
       ), #end of item 
 
-      tabItem(tabName = "Map4",
-              div(class="outer",
-                  tags$head(
-                    # Include our custom CSS
-                    includeCSS("./www/styles.css"),
-                    includeScript("./www/gomap.js")
-                  ),
-                  #Map output
-                  leafletOutput("map4", height="100%"),  
-                  
-                  tags$div(id="cite",tags$a(href="http://www.linkedin.com/in/seanchen7", 
-                                            "Copyright © 2020 by Sean Chen. All rights reserved." , title="Link to Bio"),
-                           tags$a(href="https://github.com/nytimes/covid-19-data", 
-                                  "COVID-19 data compiled by The New York Times." , title="Github"))
-              )
-              
-      ), #end of item 
+      # tabItem(tabName = "Map4",
+      #         div(class="outer",
+      #             tags$head(
+      #               # Include our custom CSS
+      #               includeCSS("./www/styles.css"),
+      #               includeScript("./www/gomap.js")
+      #             ),
+      #             #Map output
+      #             leafletOutput("map4", height="100%"),  
+      #             
+      #             tags$div(id="cite",tags$a(href="mailto:seanchen7@jhu.edu", 
+      #                                       "Copyright © 2020 by Sean Chen. All rights reserved." , title="Link to Bio"),
+      #                      tags$a(href="https://github.com/nytimes/covid-19-data", 
+      #                             "COVID-19 data compiled by The New York Times." , title="Github"))
+      #         )
+      #         
+      # ), #end of item 
       
       # ---- 
 

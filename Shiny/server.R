@@ -48,7 +48,7 @@ server <- function(input, output, session) {
     DT1$state <- factor(DT1$state, levels = unique(DT1$state)[order(DT1$case_delta, decreasing = TRUE)])
     plot_ly(DT1, x = ~state, y = ~case_delta, name = ~state, color = ~state, colors = my_pallete, 
             type = "bar") %>%
-      layout(title = "Total New Confirmed Cases",
+      layout(title = "Daily New Confirmed Cases",
              xaxis = list(title = ""), yaxis = list(title = ""), 
              showlegend = FALSE)
   })
@@ -225,11 +225,11 @@ server <- function(input, output, session) {
       setView(lng = -93.85, lat = 37.45, zoom = zoom_level)
   })
   
-  output$map4 <- renderLeaflet({
-    time_map2 %>%
-      setView(lng = -93.85, lat = 37.45, zoom = zoom_level)
-  })
-  
+  # output$map4 <- renderLeaflet({
+  #   time_map2 %>%
+  #     setView(lng = -93.85, lat = 37.45, zoom = zoom_level)
+  # })
+  # 
 
   #---
 }
